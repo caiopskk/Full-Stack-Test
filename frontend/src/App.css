@@ -1,0 +1,104 @@
+.container {
+  padding: 1.25rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(12.5rem, 1fr));
+  gap: 2.5rem;
+  background-color: transparent;
+}
+
+.card {
+  background-color: #ffffff;
+  height: 15rem;
+  width: 15.5rem;
+  border: 0.0625rem solid #ddd;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.4rem 0.5rem rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+}
+
+.card p {
+  margin: 0.7rem 1rem 0.5rem;
+  padding: 0.5rem;
+}
+
+.no-data {
+  text-align: center;
+  font-size: 1.125rem;
+  color: #555;
+}
+
+.search-bar-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 15rem;
+  background-color: #e3e3e3;
+  border-radius: 2rem;
+  padding: 0.5rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
+  padding-left: 2rem;
+}
+
+.icon-container {
+  position: absolute;
+  left: 0.625rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.upload-icon {
+  width: 0.8rem;
+  height: 0.8rem;
+  position: relative;
+}
+
+.search-bar {
+  padding-left: 2rem;
+  border: none;
+  border-radius: 2rem;
+  max-width: 20rem;
+  font-size: 1rem;
+  box-sizing: border-box;
+  background-color: transparent;
+  outline: none;
+}
+
+.search-bar::placeholder {
+  color: #aaa;
+}
+
+.search-bar:focus {
+  border: none;
+  outline: none;
+}
+
+.btn-upload {
+  padding: 0.625rem 1.25rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-upload:hover {
+  background-color: #0056b3;
+}
