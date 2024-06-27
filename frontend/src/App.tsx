@@ -9,6 +9,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 import './index.css';
 
+
+const API_URL = import.meta.env.VITE_API_URL;
+
 const App: React.FC = () => {
   const [data, setData] = useState<CSVData[]>([]);
   const [search, setSearch] = useState<string>('');
@@ -18,7 +21,7 @@ const App: React.FC = () => {
     formData.append('file', file);
 
     try {
-      const response = await axios.post('http://localhost:3000/api/files', formData, {
+      const response = await axios.post(`${API_URL}/api/files`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -40,7 +43,7 @@ const App: React.FC = () => {
 
   const fetchData = useCallback(async () => {
     try {
-      const response = await axios.get('http://localhost:3000/api/users', {
+      const response = await axios.get(`${API_URL}/api/users`, {
         params: { q: search }
       });
       if (response.status === 200) {
