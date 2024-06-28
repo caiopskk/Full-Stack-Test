@@ -28,7 +28,17 @@ export const uploadFile = (req: Request, res: Response): void => {
   parse<CSVRecord>(fileContent, {
     header: true,
     complete: (result: ParseResult<CSVRecord>) => {
-      csvData = result.data;
+      const requiredFields = ['name', 'city', 'country', 'favorite_sport'];
+      const validatedData = result.data.map(record => {
+        requiredFields.forEach(field => {
+          if (!record[field]) {
+            record[field] = 'Missing field';
+          }
+        });
+        return record;
+      });
+
+      csvData = validatedData;
       res.status(200).json({ message: 'The file was uploaded successfully.' });
     },
     error: (error: Error) => {
@@ -40,7 +50,6 @@ export const uploadFile = (req: Request, res: Response): void => {
 export const getUsers = (req: Request, res: Response): void => {
   const query = req.query.q?.toString().toLowerCase();
   if (!query) {
-    // Return all data if no query is provided
     res.status(200).json({ data: csvData });
     return;
   }
@@ -52,4 +61,9 @@ export const getUsers = (req: Request, res: Response): void => {
   );
 
   res.status(200).json({ data: filteredData });
+};
+
+export const clearData = (req: Request, res: Response): void => {
+  csvData = [];
+  res.status(200).json({ message: 'Data cleared successfully.' });
 };

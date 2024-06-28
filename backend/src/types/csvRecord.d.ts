@@ -3,4 +3,5 @@ export interface CSVRecord {
   city: string;
   country: string;
   favorite_sport: string;
+  [key: string]: string;
 }

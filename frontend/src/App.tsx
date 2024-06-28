@@ -8,13 +8,13 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 import './index.css';
-
-
-const API_URL = import.meta.env.VITE_API_URL;
+import useDebounce from './hooks/useDebounce';
+import { API_URL } from './utils/env';
 
 const App: React.FC = () => {
   const [data, setData] = useState<CSVData[]>([]);
   const [search, setSearch] = useState<string>('');
+  const debouncedSearch = useDebounce(search, 500);
 
   const handleFileUpload = async (file: File) => {
     const formData = new FormData();
@@ -44,11 +44,12 @@ const App: React.FC = () => {
   const fetchData = useCallback(async () => {
     try {
       const response = await axios.get(`${API_URL}/api/users`, {
-        params: { q: search }
+        params: { q: debouncedSearch }
       });
       if (response.status === 200) {
-        const filteredData = response.data.data.filter((item: CSVData) =>
-          item.name && item.city && item.country && item.favorite_sport
+        const filteredData = response.data.data.filter(
+          (item: CSVData) =>
+            item.name && item.city && item.country && item.favorite_sport
         );
         setData(filteredData);
       } else {
@@ -58,7 +59,25 @@ const App: React.FC = () => {
       console.error('Error fetching data:', error);
       setData([]);
     }
-  }, [search]);
+  }, [debouncedSearch]);
+
+  const handleClearData = async () => {
+    if (data.length === 0) {
+      toast.warn('No data to clear');
+      return;
+    }
+
+    try {
+      const response = await axios.delete(`${API_URL}/api/clear`);
+      if (response.status === 200) {
+        toast.success('Data cleared successfully');
+        setData([]);
+      }
+    } catch (error) {
+      toast.error('Error clearing data');
+      console.error('Error clearing data:', error);
+    }
+  };
 
   useEffect(() => {
     fetchData();
@@ -68,15 +87,23 @@ const App: React.FC = () => {
     <div className="container">
       <ToastContainer />
       <div className="header">
-          <SearchBar onSearch={setSearch} data-testid="search-input" />
-        <FileUpload onFileUpload={handleFileUpload} data-testid="upload-button" />
+        <SearchBar onSearch={setSearch} data-testid="search-input" />
+        <button className="btn-clear" onClick={handleClearData}>
+          Clear Data
+        </button>
+        <FileUpload
+          onFileUpload={handleFileUpload}
+          data-testid="upload-button"
+        />
       </div>
       <div className="grid">
-        {Array.isArray(data) && data.length > 0 ? (
+        {data.length > 0 ? (
           data.map((item, index) => (
-            <div key={index} className="card">
-              <Card data={item} data-testid="info-card" />
-            </div>
+            <Card
+              key={index}
+              data={item}
+              data-testid={`info-card-${index + 1}`}
+            />
           ))
         ) : (
           <p className="no-data">No data available</p>

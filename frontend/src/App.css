@@ -2,6 +2,11 @@
   padding: 1.25rem;
 }
 
+.missing-field {
+  color: gray;
+  font-style: italic;
+}
+
 .header {
   display: flex;
   justify-content: space-between;
@@ -18,7 +23,7 @@
 
 .card {
   background-color: #ffffff;
-  height: 15rem;
+  min-height: 15rem;
   width: 15.5rem;
   border: 0.0625rem solid #ddd;
   border-radius: 0.5rem;
@@ -101,4 +106,18 @@
 
 .btn-upload:hover {
   background-color: #0056b3;
+}
+
+.btn-clear {
+  padding: 0.625rem 1.25rem;
+  background-color: #7b7b7b;
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-clear:hover {
+  background-color: #505050;
 }

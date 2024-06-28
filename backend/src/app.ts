@@ -13,5 +13,6 @@ app.use(fileUpload());
 
 app.use('/api', fileRoutes);
 app.use('/api', userRoutes);
+app.use('/api', userRoutes);
 
 export default app;
